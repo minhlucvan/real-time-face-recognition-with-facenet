@@ -86,7 +86,7 @@ class FaceStream():
 
                 print('Load model soccess!')
 
-    def detect_faces(self, input_img):
+    def detect_faces(self, input_img, output_img):
         frame = cv2.imread(input_img)
 
         # resize frame (optional)
@@ -176,6 +176,6 @@ class FaceStream():
         else:
             print('Unable to align')
 
-        # cv2.imwrite('./face_stream/tmp/output.jpg', frame)
+        cv2.imwrite(output_img, frame)
 
         return frame

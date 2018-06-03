@@ -25,7 +25,7 @@ with tf.Graph().as_default():
         print('Number of images: %d' % len(paths))
 
         print('Loading feature extraction model')
-        modeldir = './pre_model/20170511-185253.pb'
+        modeldir = './pre_model/20180402-114759/20180402-114759.pb'
         facenet.load_model(modeldir)
 
         images_placeholder = tf.get_default_graph().get_tensor_by_name("input:0")
@@ -53,11 +53,24 @@ with tf.Graph().as_default():
 
         # Train classifier
         print('Training classifier')
-        model = SVC(kernel='linear', probability=True)
+        model = SVC(kernel='rbf', probability=True)
         model.fit(emb_array, labels)
 
         # Create a list of class names
         class_names = [cls.name.replace('_', ' ') for cls in dataset]
+
+        # save embed vectors file
+        emb_array_filename = './my_class/embed_vectors.tsv'
+        np.savetxt(emb_array_filename, emb_array, delimiter="\t")
+        print('saved embed vectors to ' + emb_array_filename)
+        
+
+        # save labels file
+        emb_labels_filename = './my_class/embed_labels.tsv'
+        with open(emb_labels_filename, 'w') as labfile:
+            for label in labels:
+                labfile.write("%s\n" % class_names[label])
+        print('saved embed labels to ' + emb_labels_filename)
 
         # Saving classifier model
         with open(classifier_filename_exp, 'wb') as outfile:

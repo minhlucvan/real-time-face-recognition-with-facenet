@@ -40,7 +40,7 @@ with tf.Graph().as_default():
         HumanNames.sort()
 
         print('Loading feature extraction model')
-        modeldir = './pre_model/20170511-185253.pb'
+        modeldir = './pre_model/20180402-114759/20180402-114759.pb'
         facenet.load_model(modeldir)
 
         images_placeholder = tf.get_default_graph().get_tensor_by_name("input:0")
